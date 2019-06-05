@@ -1,0 +1,70 @@
+<html>
+<head> 
+    <meta charset="UTF-8">
+    <title>Mi primer Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+   <style> 
+  	#map {
+   	width: 700px;
+  	 height: 600px; }
+	</style> 
+  </head>
+  <body>
+    
+    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+   crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.4.0/gpx.min.js"></script>
+ 
+    <div id="nombre"></div>
+	<div id="distancia"></div>
+ 
+	<div id="cotamin"></div>
+	<div id="cotamax"></div>
+    <div id ="map"> </div>
+ 
+    <script>
+    var map = L.map('map', 	{center: [42.4624, -6.2073],zoom: 11});
+ 
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+ 
+var url = 'astorga-foncebadon-etapa-21.gpx'; // URL to your GPX file or the GPX itself
+new L.GPX(url, {
+	async: true,
+  	marker_options: {
+    startIconUrl: 'images/marker-icon.png',
+    endIconUrl: 'images/marker-icon.png',
+   },
+    polyline_options: {
+    color: 'green',
+    opacity: 0.75,
+    weight: 3,
+    lineCap: 'round'
+  },
+}).on('loaded', function(e) {
+	var gpx=e.target;
+  map.fitBounds(gpx.getBounds());
+  
+  //Distancia
+  var distance =(gpx.get_distance());
+  var metros= x = Math.round(distance);;
+  document.getElementById("distancia").innerHTML ="Distancia: "+metros+" m";
+ 
+  //Cota inferior
+  //get_elevation_min (): devuelve la elevación más baja, en metros
+  var elevation_min =(gpx.get_elevation_min());
+  var cota_min= Math.round(elevation_min);;
+  document.getElementById("cotamin").innerHTML ="Cota minima: "+cota_min+" m";
+  //Cota superior
+  //  get_elevation_max (): devuelve la elevación más alta, en metros
+  var elevation_max =(gpx.get_elevation_max());
+  var cota_max= Math.round(elevation_max);;
+  document.getElementById("cotamax").innerHTML ="Cota máxima: "+cota_max+" m";
+}).addTo(map);
+ 
+ 
+	</script>
+  </body>
+</html>

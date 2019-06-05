@@ -1,0 +1,12 @@
+
+/*  CSS to fit our window in mobile */
+body {
+    padding:0;
+    margin:0;
+}
+body,html,#mapid {
+    height:100%;
+}
+
+
+
